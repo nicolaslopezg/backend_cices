@@ -2,7 +2,7 @@ from urllib.request import Request
 from fastapi import APIRouter, HTTPException, Path, Depends
 from config import SessionLocal
 from sqlalchemy.orm import Session
-from schemas import BookSchema, RequestBook, Response, CategoriaSchema, RequestCategoria, Alumno_carSchema, RequestAlumno_car
+from schemas import *
 import crud
 
 router = APIRouter()
@@ -50,3 +50,18 @@ async def get(db:Session=Depends(get_db)):
 async def get(db:Session=Depends(get_db)):
     _alumno_car = crud.get_alumno_car(db,0,100)
     return Response(code=200,status="Ok",message="Success Fetch all data",result=_alumno_car).dict(exclude_none=True)
+
+@router.get("/asignatura")
+async def get(db:Session=Depends(get_db)):
+    _asignatura = crud.get_asignatura(db,0,1000)
+    return Response(code=200,status="Ok",message="Success Fetch all data",result=_asignatura).dict(exclude_none=True)
+
+@router.get("/comuna")
+async def get(db:Session=Depends(get_db)):
+    _comuna = crud.get_comuna(db,0,1000)
+    return Response(code=200,status="Ok",message="Success Fetch all data",result=_comuna).dict(exclude_none=True)
+
+@router.get("/curso")
+async def get(db:Session=Depends(get_db)):
+    _curso = crud.get_curso(db,0,1000)
+    return Response(code=200,status="Ok",message="Success Fetch all data",result=_curso).dict(exclude_none=True)

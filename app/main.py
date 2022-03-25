@@ -9,7 +9,7 @@ import pandas as pd
 import functions
 
 from fastapi_sqlalchemy import db, DBSessionMiddleware
-from model import Alumno_car, Categoria
+from model import *
 
 model.Base.metadata.create_all(bind=engine)
 model.Base.metadata.schema = 'info_db'
@@ -56,4 +56,22 @@ async def categoria():
     print(db.session.query(Categoria))
     return categoria
 
+@app.get('/asignatura/')
+async def asignatura():
+    asignatura = db.session.query(Asignatura).all()
+    print(db.session.query(Asignatura))
+    return asignatura
+
+@app.get('/comuna/')
+async def comuna():
+    comuna = db.session.query(Comuna).all()
+    print(db.session.query(Comuna))
+    return comuna
+
+
+@app.get('/curso/')
+async def curso():
+    curso = db.session.query(Curso).all()
+    print(db.session.query(Curso))
+    return curso
 

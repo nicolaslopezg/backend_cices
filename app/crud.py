@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
-from model import Book, Categoria, Alumno_car
-from schemas import BookSchema, CategoriaSchema, Alumno_carSchema
+from model import *
+from schemas import *
 
 def get_book(db:Session,skip:int=0,limit:int=100):
     return db.query(Book).offset(skip).limit(limit).all()
@@ -36,3 +36,15 @@ def get_categoria(db:Session,skip:int=0,limit:int=100):
 
 def get_alumno_car(db:Session,skip:int=0,limit:int=100):
     return db.query(Alumno_car).offset(skip).limit(limit).all()
+
+
+def get_asignatura(db:Session,skip:int=0,limit:int=100):
+    return db.query(Asignatura).offset(skip).limit(limit).all()
+
+    
+def get_comuna(db:Session,skip:int=0,limit:int=100):
+    return db.query(Comuna).offset(skip).limit(limit).all()
+
+    
+def get_curso(db:Session,skip:int=0,limit:int=100):
+    return db.query(Curso).offset(skip).limit(limit).all()
