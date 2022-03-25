@@ -7,6 +7,7 @@ import router
 import os
 import pandas as pd
 import functions
+from fastapi.middleware.cors import CORSMiddleware
 
 from fastapi_sqlalchemy import db, DBSessionMiddleware
 from model import *
@@ -15,6 +16,18 @@ model.Base.metadata.create_all(bind=engine)
 model.Base.metadata.schema = 'info_db'
 
 app = FastAPI()
+
+origins = [
+    "http://localhost:8080",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 os.environ['DATABASE_URL'] = DATABASE_URL
 
@@ -44,6 +57,7 @@ async def alumno_car():
 async def alumno_car_data():
     alumno_car_data = db.session.query(Alumno_car).all()
     for element in alumno_car_data:
+        element.alu_rut = "*********"
         element.alu_paterno = functions.codificar(element.alu_paterno,7)
         element.alu_e_mail = functions.codificar(element.alu_e_mail,7)
         element.alu_e_mail2 = functions.codificar(element.alu_e_mail2,7)
