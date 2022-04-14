@@ -1,6 +1,7 @@
 from re import M
 from fastapi import FastAPI
 from sqlalchemy import MetaData
+from sqlalchemy import inspect
 import model
 from config import engine, DATABASE_URL
 import router
@@ -8,6 +9,7 @@ import os
 import pandas as pd
 import functions
 from fastapi.middleware.cors import CORSMiddleware
+import json
 
 from fastapi_sqlalchemy import db, DBSessionMiddleware
 from model import *
@@ -85,6 +87,7 @@ app.include_router(router.router,prefix="/student",tags=["student"])
 #     return comuna
 
 
+<<<<<<< HEAD
 # @app.get('/curso/')
 # async def curso():
 #     curso = db.session.query(Curso).all()
@@ -185,3 +188,23 @@ async def course():
         element.crs_title = functions.codificar(element.crs_title,7)
     print(db.session.query(Course))
     return course
+=======
+@app.get('/info_db/')
+async def info_db():
+    inspector = inspect(engine)
+    schemas = inspector.get_table_names(schema="info_db")
+    return schemas
+
+@app.get('/info_db_columnas/')
+async def info_db():
+    columnas = []
+    total_columnas = []
+    inspector = inspect(engine)
+    schemas = inspector.get_table_names(schema="info_db")
+    for table_name in schemas:
+        for column in inspector.get_columns(table_name, schema="info_db"):
+            columnas.append(column['name'])
+        total_columnas.append(columnas)
+        columnas = []
+    return total_columnas
+>>>>>>> 580c9cc9843d789bad9cc6781380bafb83ea2757
