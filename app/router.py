@@ -39,29 +39,64 @@ def get_db():
 #     _book = crud.remove_book(db,book_id=id)
 #     return Response(code=200,status="Ok",message="Success delete data",result=_book).dict(exclude_none=True)
 
-@router.get("/categoria")
+# @router.get("/categoria")
+# async def get(db:Session=Depends(get_db)):
+#     _categoria = crud.get_categoria(db,0,1000)
+#     return Response(code=200,status="Ok",message="Success Fetch all data",result=_categoria).dict(exclude_none=True)
+
+
+
+# @router.get("/alumno_car")
+# async def get(db:Session=Depends(get_db)):
+#     _alumno_car = crud.get_alumno_car(db,0,100)
+#     return Response(code=200,status="Ok",message="Success Fetch all data",result=_alumno_car).dict(exclude_none=True)
+
+# @router.get("/asignatura")
+# async def get(db:Session=Depends(get_db)):
+#     _asignatura = crud.get_asignatura(db,0,1000)
+#     return Response(code=200,status="Ok",message="Success Fetch all data",result=_asignatura).dict(exclude_none=True)
+
+# @router.get("/comuna")
+# async def get(db:Session=Depends(get_db)):
+#     _comuna = crud.get_comuna(db,0,1000)
+#     return Response(code=200,status="Ok",message="Success Fetch all data",result=_comuna).dict(exclude_none=True)
+
+# @router.get("/curso")
+# async def get(db:Session=Depends(get_db)):
+#     _curso = crud.get_curso(db,0,1000)
+#     return Response(code=200,status="Ok",message="Success Fetch all data",result=_curso).dict(exclude_none=True)
+
+@router.get("/student")
 async def get(db:Session=Depends(get_db)):
-    _categoria = crud.get_categoria(db,0,1000)
-    return Response(code=200,status="Ok",message="Success Fetch all data",result=_categoria).dict(exclude_none=True)
+    _student = crud.get_student(db,0,1000)
+    return Response(code=200,status="Ok",message="Success Fetch all data",result=_student).dict(exclude_none=True)
 
-
-
-@router.get("/alumno_car")
+@router.get("/section")
 async def get(db:Session=Depends(get_db)):
-    _alumno_car = crud.get_alumno_car(db,0,100)
-    return Response(code=200,status="Ok",message="Success Fetch all data",result=_alumno_car).dict(exclude_none=True)
+    _section = crud.get_section(db,0,1000)
+    return Response(code=200,status="Ok",message="Success Fetch all data",result=_section).dict(exclude_none=True)
 
-@router.get("/asignatura")
+@router.get("/instructor")
 async def get(db:Session=Depends(get_db)):
-    _asignatura = crud.get_asignatura(db,0,1000)
-    return Response(code=200,status="Ok",message="Success Fetch all data",result=_asignatura).dict(exclude_none=True)
+    _instructor = crud.get_instructor(db,0,1000)
+    return Response(code=200,status="Ok",message="Success Fetch all data",result=_instructor).dict(exclude_none=True)
 
-@router.get("/comuna")
+@router.get("/enrollment")
 async def get(db:Session=Depends(get_db)):
-    _comuna = crud.get_comuna(db,0,1000)
-    return Response(code=200,status="Ok",message="Success Fetch all data",result=_comuna).dict(exclude_none=True)
+    _enrollment = crud.get_enrollment(db,0,1000)
+    return Response(code=200,status="Ok",message="Success Fetch all data",result=_enrollment).dict(exclude_none=True)
 
-@router.get("/curso")
+@router.get("/ed_center")
 async def get(db:Session=Depends(get_db)):
-    _curso = crud.get_curso(db,0,1000)
-    return Response(code=200,status="Ok",message="Success Fetch all data",result=_curso).dict(exclude_none=True)
+    _ed_center = crud.get_ed_center(db,0,1000)
+    return Response(code=200,status="Ok",message="Success Fetch all data",result=_ed_center).dict(exclude_none=True)
+
+@router.get("/department")
+async def get(db:Session=Depends(get_db)):
+    _department = crud.get_department(db,0,1000)
+    return Response(code=200,status="Ok",message="Success Fetch all data",result=_department).dict(exclude_none=True)
+
+@router.get("/course")
+async def get(db:Session=Depends(get_db)):
+    _course = crud.get_course(db,0,1000)
+    return Response(code=200,status="Ok",message="Success Fetch all data",result=_course).dict(exclude_none=True)
