@@ -17,7 +17,7 @@ from sqlalchemy.ext.declarative import declarative_base
 # print(local_port)
 
 
-DATABASE_URL = "postgresql://postgres:postgres@localhost:5432/cices_test"
+DATABASE_URL = "postgresql://postgres:pass@localhost:5432/fastapi"
 
 engine = create_engine(DATABASE_URL)
 

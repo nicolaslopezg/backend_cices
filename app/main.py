@@ -44,56 +44,6 @@ app.include_router(router.router,prefix="/book",tags=["book"])
 
 app.include_router(router.router,prefix="/student",tags=["student"])
 
-
-# app.include_router(router.router,prefix="/categoria",tags=["categoria"])
-
-# app.include_router(router.router,prefix="/alumno_car",tags=["alumno_car"])
-
-
-# @app.get('/alumno_car/')
-# async def alumno_car():
-#     alumno_car = db.session.query(Alumno_car).all()
-#     print('entre aca')
-#     return alumno_car
-
-# #Alumno_car escondiendo rut
-# @app.get('/alumno_car_data/')
-# async def alumno_car_data():
-#     alumno_car_data = db.session.query(Alumno_car).all()
-#     for element in alumno_car_data:
-#         element.alu_rut = "*********"
-#         element.alu_paterno = functions.codificar(element.alu_paterno,7)
-#         element.alu_e_mail = functions.codificar(element.alu_e_mail,7)
-#         element.alu_e_mail2 = functions.codificar(element.alu_e_mail2,7)
-#         print(element)
-#     return alumno_car_data
-
-# @app.get('/categoria/')
-# async def categoria():
-#     categoria = db.session.query(Categoria).all()
-#     print(db.session.query(Categoria))
-#     return categoria
-
-# @app.get('/asignatura/')
-# async def asignatura():
-#     asignatura = db.session.query(Asignatura).all()
-#     print(db.session.query(Asignatura))
-#     return asignatura
-
-# @app.get('/comuna/')
-# async def comuna():
-#     comuna = db.session.query(Comuna).all()
-#     print(db.session.query(Comuna))
-#     return comuna
-
-
-# @app.get('/curso/')
-# async def curso():
-#     curso = db.session.query(Curso).all()
-#     print(db.session.query(Curso))
-#     return curso
-
-
 #Query normal
 @app.get('/student/')
 async def student():
@@ -114,6 +64,14 @@ async def student():
 @app.get('/section/')
 async def section():
     section = db.session.query(Section).all()
+    print(db.session.query(Section))
+    return section
+
+@app.get('/section_hide/')
+async def section():
+    section = db.session.query(Section).all()
+    for element in section:
+        element.sec_num = "*"
     print(db.session.query(Section))
     return section
 
@@ -138,6 +96,15 @@ async def instructor():
 @app.get('/enrollment/')
 async def enrollment():
     enrollment = db.session.query(Enrollment).all()
+    print(db.session.query(Enrollment))
+    return enrollment
+
+@app.get('/enrollment_hide/')
+async def enrollment():
+    enrollment = db.session.query(Enrollment).all()
+    for element in enrollment:
+        element.student_id = "*"
+        element.sec_id = "*"
     print(db.session.query(Enrollment))
     return enrollment
 
@@ -187,3 +154,109 @@ async def course():
         element.crs_title = functions.codificar(element.crs_title,7)
     print(db.session.query(Course))
     return course
+
+#########################
+#Info todas las tablas
+@app.get('/course_columns/')
+async def info_db():
+    columnas = []
+    nombres = ['ID', 'Nombre','Creditos','ID depto asociado']
+    i=0
+    inspector = inspect(engine)
+    for column in inspector.get_columns("course"):
+        columnas.append(nombres[i])
+        columnas.append(column['name'])
+        i=i+1
+    return columnas
+
+@app.get('/student_columns/')
+async def info_db():
+    columnas = []
+    nombres = ['ID', 'Nombre','Apellido','Promedio']
+    i=0
+    inspector = inspect(engine)
+    for column in inspector.get_columns("student"):
+        columnas.append(nombres[i])
+        columnas.append(column['name'])
+        i=i+1
+    return columnas
+
+@app.get('/section_columns/')
+async def info_db():
+    columnas = []
+    nombres = ['ID', 'ID Curso','N° Sección','ID Edc','ID Instituto']
+    i=0
+    inspector = inspect(engine)
+    for column in inspector.get_columns("section"):
+        columnas.append(nombres[i])
+        columnas.append(column['name'])
+        i=i+1
+    return columnas
+
+@app.get('/instructor_columns/')
+async def info_db():
+    columnas = []
+    nombres = ['ID', 'Nombre','Apellido']
+    i=0
+    inspector = inspect(engine)
+    for column in inspector.get_columns("instructor"):
+        columnas.append(nombres[i])
+        columnas.append(column['name'])
+        i=i+1
+    return columnas
+
+@app.get('/enrollment_columns/')
+async def info_db():
+    columnas = []
+    nombres = ['ID Alumno', 'ID Sección']
+    i=0
+    inspector = inspect(engine)
+    for column in inspector.get_columns("enrollment"):
+        columnas.append(nombres[i])
+        columnas.append(column['name'])
+        i=i+1
+    return columnas
+
+@app.get('/ed_center_columns/')
+async def info_db():
+    columnas = []
+    nombres = ['ID', 'Nombre','País']
+    i=0
+    inspector = inspect(engine)
+    for column in inspector.get_columns("ed_center"):
+        columnas.append(nombres[i])
+        columnas.append(column['name'])
+        i=i+1
+    return columnas
+
+@app.get('/department_columns/')
+async def info_db():
+    columnas = []
+    nombres = ['ID', 'Nombre']
+    i=0
+    inspector = inspect(engine)
+    for column in inspector.get_columns("department"):
+        columnas.append(nombres[i])
+        columnas.append(column['name'])
+        i=i+1
+    return columnas
+
+##########################################
+@app.get('/info_db/')
+async def info_db():
+    inspector = inspect(engine)
+    schemas = inspector.get_table_names(schema="public")
+    return schemas
+
+@app.get('/info_db_columnas/')
+async def info_db():
+    columnas = []
+    total_columnas = []
+    inspector = inspect(engine)
+    schemas = inspector.get_table_names(schema="public")
+    for table_name in schemas:
+        for column in inspector.get_columns(table_name, schema="public"):
+            columnas.append(column['name'])
+        total_columnas.append(columnas)
+        columnas = []
+    return total_columnas
