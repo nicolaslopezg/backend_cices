@@ -246,9 +246,10 @@ async def info_db():
 ##########################################
 @app.get('/info_db/')
 async def info_db():
-    inspector = inspect(engine)
-    schemas = inspector.get_table_names(schema="public")
-    return schemas
+    #inspector = inspect(engine)
+    nombres = ['Cursos','Departamento','Centro educacional','Rol','Profesor','Seccion','Estudiante']
+    #schemas = inspector.get_table_names(schema="public")
+    return nombres
 
 @app.get('/info_db_columnas/')
 async def info_db():
@@ -269,14 +270,6 @@ async def read_item(nombre_columna: str):
     nombre_completo = nombre_columna.split('-')
     nombre_tabla = nombre_completo[0]
     nombre_atributo = nombre_completo[1]
-    #Nomber de columnas
-    student_info = ['student_id','student_fname','student_lname','student_gpa']
-    course_info = ['crs_id','crs_title','crs_credits','dep_id']
-    department_info = ['dep_id','dep_name']
-    ed_center_info = ['edc_id','edc_name','edc_country']
-    enrollment_info = ['student_id', 'sec_id']
-    instructor_info = ['ins_id','ins_fname','ins_lname']
-    section_info = ['sec_id','crs_id','sec_num','edc_id','ins_id']
 
     #Información de tablas
     student = db.session.query(Student).all()
@@ -287,8 +280,36 @@ async def read_item(nombre_columna: str):
     instructor = db.session.query(Instructor).all()
     section = db.session.query(Section).all()
 
+    #Seccion de encriptacion de parametros
+    for element in student:
+        element.student_id = "***"
+        element.student_lname = functions.codificar(element.student_lname,7)
+
+    for element in section:
+        element.sec_num = "***"
+
+    for element in instructor:
+        element.ins_id = "***"
+        element.ins_lname = functions.codificar(element.ins_lname,7)
+
+    for element in enrollment:
+        element.student_id = "***"
+        element.sec_id = "***"
+
+    for element in ed_center:
+        element.edc_id = "***"
+        element.edc_name = functions.codificar(element.edc_name,7)
+
+    for element in department:
+        element.dep_id = "*"
+        element.dep_name = functions.codificar(element.dep_name,7)
+    
+    for element in course:
+        element.crs_id = "*"
+        element.crs_title = functions.codificar(element.crs_title,7)
+
     ####################Estudiantes##########################
-    if(nombre_tabla=='student'):
+    if(nombre_tabla=='Estudiante'):
         for item in student:
             if nombre_atributo == 'student_id':
                 columna.append(item.student_id)
@@ -300,7 +321,7 @@ async def read_item(nombre_columna: str):
                 columna.append(item.student_gpa)
 
     ######################Cursos########################
-    if(nombre_tabla=='course'):
+    elif(nombre_tabla=='Curso'):
         for item in course:
             if nombre_atributo == 'crs_id':
                 columna.append(item.crs_id)
@@ -312,7 +333,7 @@ async def read_item(nombre_columna: str):
                 columna.append(item.dep_id)
 
     ######################Departamentos##################
-    if(nombre_tabla=='department'):
+    elif(nombre_tabla=='Departamento'):
         for item in department:
             if nombre_atributo == 'dep_id':
                 columna.append(item.dep_id)
@@ -320,7 +341,7 @@ async def read_item(nombre_columna: str):
                 columna.append(item.dep_name)
 
     ######################Ed center####################
-    if(nombre_tabla=='ed_center'):
+    elif(nombre_tabla=='Centro Educacional'):
         for item in ed_center:
             if nombre_atributo == 'edc_id':
                 columna.append(item.edc_id)
@@ -330,7 +351,7 @@ async def read_item(nombre_columna: str):
                 columna.append(item.edc_country)
 
     ########################Rol########################
-    if(nombre_tabla=='enrollment'):
+    elif(nombre_tabla=='Rol'):
         for item in enrollment:
             if nombre_atributo == 'student_id':
                 columna.append(item.student_id)
@@ -338,7 +359,7 @@ async def read_item(nombre_columna: str):
                 columna.append(item.sec_id)
 
     ######################Profesor########################
-    if(nombre_tabla=='instructor'):
+    elif(nombre_tabla=='Profesor'):
         for item in instructor:
             if nombre_atributo == 'ins_id':
                 columna.append(item.ins_id)
@@ -348,7 +369,7 @@ async def read_item(nombre_columna: str):
                 columna.append(item.ins_lname)
 
     ####################Seccion###########################
-    if(nombre_tabla=='section'):
+    elif(nombre_tabla=='Seccion'):
         for item in section:
             if nombre_columna == 'sec_id':
                 columna.append(item.sec_id)
