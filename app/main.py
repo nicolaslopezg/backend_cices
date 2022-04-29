@@ -321,7 +321,7 @@ async def read_item(nombre_columna: str):
                 columna.append(item.student_gpa)
 
     ######################Cursos########################
-    elif(nombre_tabla=='Curso'):
+    elif(nombre_tabla=='Cursos'):
         for item in course:
             if nombre_atributo == 'crs_id':
                 columna.append(item.crs_id)
@@ -371,14 +371,14 @@ async def read_item(nombre_columna: str):
     ####################Seccion###########################
     elif(nombre_tabla=='Seccion'):
         for item in section:
-            if nombre_columna == 'sec_id':
+            if nombre_atributo == 'sec_id':
                 columna.append(item.sec_id)
-            elif nombre_columna == 'crs_id':
+            elif nombre_atributo == 'crs_id':
                 columna.append(item.crs_id)
-            elif nombre_columna == 'sec_num':
+            elif nombre_atributo == 'sec_num':
                 columna.append(item.sec_num)
-            elif nombre_columna == 'edc_id':
+            elif nombre_atributo == 'edc_id':
                 columna.append(item.edc_id)
-            elif nombre_columna == 'ins_id':
+            elif nombre_atributo == 'ins_id':
                 columna.append(item.ins_id)
     return columna
