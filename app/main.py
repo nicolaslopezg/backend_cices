@@ -1,7 +1,9 @@
 from re import M
+import string
 from fastapi import FastAPI
 from sqlalchemy import MetaData
 from sqlalchemy import inspect
+from sqlalchemy.orm import load_only
 import model
 from config import engine, DATABASE_URL
 import router
@@ -260,3 +262,102 @@ async def info_db():
         total_columnas.append(columnas)
         columnas = []
     return total_columnas
+
+@app.get('/search/{nombre_columna}')
+async def read_item(nombre_columna: str):
+    columna=[]
+    nombre_completo = nombre_columna.split('-')
+    nombre_tabla = nombre_completo[0]
+    nombre_atributo = nombre_completo[1]
+    #Nomber de columnas
+    student_info = ['student_id','student_fname','student_lname','student_gpa']
+    course_info = ['crs_id','crs_title','crs_credits','dep_id']
+    department_info = ['dep_id','dep_name']
+    ed_center_info = ['edc_id','edc_name','edc_country']
+    enrollment_info = ['student_id', 'sec_id']
+    instructor_info = ['ins_id','ins_fname','ins_lname']
+    section_info = ['sec_id','crs_id','sec_num','edc_id','ins_id']
+
+    #Información de tablas
+    student = db.session.query(Student).all()
+    course = db.session.query(Course).all()
+    department = db.session.query(Department).all()
+    ed_center = db.session.query(Ed_center).all()
+    enrollment = db.session.query(Enrollment).all()
+    instructor = db.session.query(Instructor).all()
+    section = db.session.query(Section).all()
+
+    ####################Estudiantes##########################
+    if(nombre_tabla=='student'):
+        for item in student:
+            if nombre_atributo == 'student_id':
+                columna.append(item.student_id)
+            elif nombre_atributo == 'student_fname':
+                columna.append(item.student_fname)
+            elif nombre_atributo == 'student_lname':
+                columna.append(item.student_lname)
+            elif nombre_atributo == 'student_gpa':
+                columna.append(item.student_gpa)
+
+    ######################Cursos########################
+    if(nombre_tabla=='course'):
+        for item in course:
+            if nombre_atributo == 'crs_id':
+                columna.append(item.crs_id)
+            elif nombre_atributo == 'crs_title':
+                columna.append(item.crs_title)
+            elif nombre_atributo == 'crs_credits':
+                columna.append(item.crs_credits)
+            elif nombre_atributo == 'dep_id':
+                columna.append(item.dep_id)
+
+    ######################Departamentos##################
+    if(nombre_tabla=='department'):
+        for item in department:
+            if nombre_atributo == 'dep_id':
+                columna.append(item.dep_id)
+            elif nombre_atributo == 'dep_name':
+                columna.append(item.dep_name)
+
+    ######################Ed center####################
+    if(nombre_tabla=='ed_center'):
+        for item in ed_center:
+            if nombre_atributo == 'edc_id':
+                columna.append(item.edc_id)
+            elif nombre_atributo == 'edc_name':
+                columna.append(item.edc_name)
+            elif nombre_atributo == 'edc_country':
+                columna.append(item.edc_country)
+
+    ########################Rol########################
+    if(nombre_tabla=='enrollment'):
+        for item in enrollment:
+            if nombre_atributo == 'student_id':
+                columna.append(item.student_id)
+            elif nombre_atributo == 'sec_id':
+                columna.append(item.sec_id)
+
+    ######################Profesor########################
+    if(nombre_tabla=='instructor'):
+        for item in instructor:
+            if nombre_atributo == 'ins_id':
+                columna.append(item.ins_id)
+            elif nombre_atributo == 'ins_fname':
+                columna.append(item.ins_fname)
+            elif nombre_atributo == 'ins_lname':
+                columna.append(item.ins_lname)
+
+    ####################Seccion###########################
+    if(nombre_tabla=='section'):
+        for item in section:
+            if nombre_columna == 'sec_id':
+                columna.append(item.sec_id)
+            elif nombre_columna == 'crs_id':
+                columna.append(item.crs_id)
+            elif nombre_columna == 'sec_num':
+                columna.append(item.sec_num)
+            elif nombre_columna == 'edc_id':
+                columna.append(item.edc_id)
+            elif nombre_columna == 'ins_id':
+                columna.append(item.ins_id)
+    return columna
