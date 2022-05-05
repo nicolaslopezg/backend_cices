@@ -247,7 +247,8 @@ async def info_db():
 @app.get('/info_db/')
 async def info_db():
     #inspector = inspect(engine)
-    nombres = ['Cursos','Departamento','Centro educacional','Rol','Profesor','Seccion','Estudiante']
+    #nombres = ['Cursos','Departamento','Centro educacional','Rol','Profesor','Seccion','Estudiante']
+    nombres = ['Estudiante', 'Rol', 'Seccion', 'Centro educacional', 'Profesor', 'Curso', 'Departamento']
     #schemas = inspector.get_table_names(schema="public")
     return nombres
 
@@ -272,8 +273,8 @@ async def read_item(nombre_columna: str):
     nombre_atributo = nombre_completo[1]
 
     #Información de tablas
-    student = db.session.query(Student).all()
     course = db.session.query(Course).all()
+    student = db.session.query(Student).all()
     department = db.session.query(Department).all()
     ed_center = db.session.query(Ed_center).all()
     enrollment = db.session.query(Enrollment).all()
@@ -281,32 +282,32 @@ async def read_item(nombre_columna: str):
     section = db.session.query(Section).all()
 
     #Seccion de encriptacion de parametros
-    for element in student:
-        element.student_id = "***"
-        element.student_lname = functions.codificar(element.student_lname,7)
+    # for element in student:
+    #     element.student_id = "***"
+    #     element.student_lname = functions.codificar(element.student_lname,7)
 
-    for element in section:
-        element.sec_num = "***"
+    # for element in section:
+    #     element.sec_num = "***"
 
-    for element in instructor:
-        element.ins_id = "***"
-        element.ins_lname = functions.codificar(element.ins_lname,7)
+    # for element in instructor:
+    #     element.ins_id = "***"
+    #     element.ins_lname = functions.codificar(element.ins_lname,7)
 
-    for element in enrollment:
-        element.student_id = "***"
-        element.sec_id = "***"
+    # for element in enrollment:
+    #     element.student_id = "***"
+    #     element.sec_id = "***"
 
-    for element in ed_center:
-        element.edc_id = "***"
-        element.edc_name = functions.codificar(element.edc_name,7)
+    # for element in ed_center:
+    #     element.edc_id = "***"
+    #     element.edc_name = functions.codificar(element.edc_name,7)
 
-    for element in department:
-        element.dep_id = "*"
-        element.dep_name = functions.codificar(element.dep_name,7)
+    # for element in department:
+    #     element.dep_id = "*"
+    #     element.dep_name = functions.codificar(element.dep_name,7)
     
-    for element in course:
-        element.crs_id = "*"
-        element.crs_title = functions.codificar(element.crs_title,7)
+    # for element in course:
+    #     element.crs_id = "*"
+    #     element.crs_title = functions.codificar(element.crs_title,7)
 
     ####################Estudiantes##########################
     if(nombre_tabla=='Estudiante'):
