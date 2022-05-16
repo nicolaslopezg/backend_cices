@@ -324,7 +324,7 @@ async def read_item(nombre_columna: str):
         for item in course:
             if nombre_atributo == 'ID curso':
                 columna.append(item.crs_id)
-            elif nombre_atributo == 'Nombre Asignatura':
+            elif nombre_atributo == 'Nombre asignatura':
                 columna.append(item.crs_title)
             elif nombre_atributo == 'Créditos':
                 columna.append(item.crs_credits)
