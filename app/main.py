@@ -1,5 +1,6 @@
 from re import M
 import string
+from urllib import response
 from fastapi import FastAPI
 from sqlalchemy import MetaData
 from sqlalchemy import inspect
@@ -12,6 +13,7 @@ import pandas as pd
 import functions
 from fastapi.middleware.cors import CORSMiddleware
 import json
+import random
 
 from fastapi_sqlalchemy import db, DBSessionMiddleware
 from model import *
@@ -381,3 +383,28 @@ async def read_item(nombre_columna: str):
             elif nombre_atributo == 'ID profesor':
                 columna.append(item.ins_id)
     return columna
+
+########################################
+
+# POST REQUEST
+
+########################################
+
+#Post proyectos
+@app.post('/project/{name}/{id}')
+def create_project(id:int,name:str):
+    new_id = int(id)
+    new_project = Project(project_id=new_id,project_name=name)
+    db.session.add(new_project)
+    db.session.commit()
+    return new_project
+
+#Post acciones
+@app.post('/project/{id}/{tabla}/{atribute}/{action}/{id_proyecto}')
+def create_project(id:int,tabla:str,atribute:str,action:str,id_proyecto:int):
+    new_id = int(id)
+    new_id_proyecto = int(id_proyecto)
+    new_action = Action(action_id=new_id,tabla_mod=tabla,atribute_mod=atribute,action_mod=action,project_id=new_id_proyecto)
+    db.session.add(new_action)
+    db.session.commit()
+    return new_action

@@ -133,3 +133,18 @@ class Course(Base):
     crs_title=Column(String)
     crs_credits=Column(String)
     dep_id=Column(Integer)
+
+class Project(Base):
+    __tablename__ = 'project'
+
+    project_id=Column(Integer, primary_key=True)
+    project_name=Column(String)
+
+class Action(Base):
+    __tablename__ = 'action'
+
+    action_id=Column(Integer, primary_key=True)
+    tabla_mod=Column(String)
+    atribute_mod=Column(String)
+    action_mod=Column(String)
+    project_id=Column(Integer)

@@ -19,6 +19,11 @@ async def get(db:Session=Depends(get_db)):
     _student = crud.get_student(db,0,1000)
     return Response(code=200,status="Ok",message="Success Fetch all data",result=_student).dict(exclude_none=True)
 
+@router.get("/project")
+async def get(db:Session=Depends(get_db)):
+    _project = crud.get_project(db,0,1000)
+    return Response(code=200,status="Ok",message="Success Fetch all data",result=_project).dict(exclude_none=True)
+
 @router.get("/section")
 async def get(db:Session=Depends(get_db)):
     _section = crud.get_section(db,0,1000)

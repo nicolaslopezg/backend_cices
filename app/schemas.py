@@ -194,3 +194,28 @@ class CourseSchema(BaseModel):
     
 class RequestCourse(BaseModel):
     parameter: CourseSchema = Field(...)
+
+#NEW project
+class ProjectSchema(BaseModel):
+    project_id: Optional[int] = None
+    project_name: Optional[str] = None
+
+    class Config:
+        orm_mode = True
+    
+class RequestProject(BaseModel):
+    parameter: ProjectSchema = Field(...)
+
+#NEW action
+class ActionSchema(BaseModel):
+    action_id: Optional[int] = None
+    tabla_mod: Optional[str] = None
+    atribute_mod: Optional[str] = None
+    action_mod: Optional[str] = None
+    project_id: Optional[int] = None
+
+    class Config:
+        orm_mode = True
+    
+class RequestAction(BaseModel):
+    parameter: ActionSchema = Field(...)
