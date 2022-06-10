@@ -115,6 +115,12 @@ class StudentSchema(BaseModel):
     student_fname: Optional[str] = None
     student_lname: Optional[str] = None
     student_gpa: Optional[int] = None
+    student_entryYear: Optional[int] = None
+    student_entrySemester: Optional[int] = None
+    student_carreerId: Optional[int] = None
+    student_commune: Optional[str] = None
+    student_quintile: Optional[str] = None
+    
 
     class Config:
         orm_mode = True

@@ -91,6 +91,12 @@ class Student(Base):
     student_fname=Column(String)
     student_lname=Column(String)
     student_gpa=Column(Integer)
+    ##añoingreso, semestre ingreso, carrera, quintil, comuna
+    student_entryYear=Column(Integer)
+    student_entrySemester=Column(Integer)
+    student_carreerId=Column(Integer)
+    student_commune=Column(String)
+    student_quintile=Column(String)
 
 class Section(Base):
     __tablename__ = 'section'

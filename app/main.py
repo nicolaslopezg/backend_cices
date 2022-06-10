@@ -176,7 +176,7 @@ async def info_db():
 @app.get('/student_columns/')
 async def info_db():
     columnas = []
-    nombres = ['ID', 'Nombre','Apellido','Promedio']
+    nombres = ['ID', 'Nombre','Apellido','Promedio','Año ingreso','Semestre ingreso','ID carrera','Comuna','Quintil']
     i=0
     inspector = inspect(engine)
     for column in inspector.get_columns("student"):
@@ -261,7 +261,7 @@ async def info_db():
     rol = ['ID estudiante','ID seccion']
     profesor = ['ID profesor','Nombre','Apellido']
     seccion = ['ID seccion','ID curso','N° seccion','ID centro','ID profesor']
-    estudiante = ['ID estudiante','Nombre','Apellido','Promedio']
+    estudiante = ['ID estudiante','Nombre','Apellido','Promedio','Año ingreso','Semestre ingreso','ID carrera','Comuna','Quintil']
     columnas = [cursos,departamento,centro_ed,rol,profesor,seccion,estudiante]
     return columnas
 
@@ -320,6 +320,16 @@ async def read_item(nombre_columna: str):
                 columna.append(item.student_lname)
             elif nombre_atributo == 'Promedio':
                 columna.append(item.student_gpa)
+            elif nombre_atributo == 'Año ingreso':
+                columna.append(item.student_entryYear)
+            elif nombre_atributo == 'Semestre ingreso':
+                columna.append(item.student_entrySemester)
+            elif nombre_atributo == 'ID carrera':
+                columna.append(item.student_carreerId)
+            elif nombre_atributo == 'Comuna':
+                columna.append(item.student_commune)
+            elif nombre_atributo == 'Quintil':
+                columna.append(item.student_quintile)
 
     ######################Cursos########################
     elif(nombre_tabla=='Cursos'):
