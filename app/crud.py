@@ -69,3 +69,6 @@ def get_department(db:Session,skip:int=0,limit:int=100):
 
 def get_course(db:Session,skip:int=0,limit:int=100):
     return db.query(Course).offset(skip).limit(limit).all()
+
+def get_filter(db:Session,skip:int=0,limit:int=100):
+    return db.query(Filter).offset(skip).limit(limit).all()

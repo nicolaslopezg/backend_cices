@@ -53,3 +53,8 @@ async def get(db:Session=Depends(get_db)):
 async def get(db:Session=Depends(get_db)):
     _course = crud.get_course(db,0,1000)
     return Response(code=200,status="Ok",message="Success Fetch all data",result=_course).dict(exclude_none=True)
+
+@router.get("/filter")
+async def get(db:Session=Depends(get_db)):
+    _filter = crud.get_filter(db,0,1000)
+    return Response(code=200,status="Ok",message="Success Fetch all data",result=_filter).dict(exclude_none=True)

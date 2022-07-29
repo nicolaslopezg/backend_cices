@@ -1,3 +1,4 @@
+from cgitb import small
 from dataclasses import field
 from re import S
 from typing import List, Optional, Generic, TypeVar
@@ -225,3 +226,14 @@ class ActionSchema(BaseModel):
     
 class RequestAction(BaseModel):
     parameter: ActionSchema = Field(...)
+
+
+class FilterSchema(BaseModel):
+    table_id: Optional[str] = None
+    option: Optional[int] = None
+
+    class Config:
+        orm_mode = True
+
+class RequestFilter(BaseModel):
+    parameter: FilterSchema = Field(...)

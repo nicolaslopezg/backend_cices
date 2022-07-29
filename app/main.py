@@ -24,6 +24,7 @@ model.Base.metadata.schema = 'info_db'
 app = FastAPI()
 
 origins = [
+    "http://localhost",
     "http://localhost:8080",
 ]
 
@@ -418,3 +419,66 @@ def create_project(id:int,tabla:str,atribute:str,action:str,id_proyecto:int):
     db.session.add(new_action)
     db.session.commit()
     return new_action
+
+
+#query para obtener comunas
+@app.get('/communes_list/')
+async def communes_list():
+    communes_list = []
+    student = db.session.query(Student).all()
+    ##print(db.session.query(Student))
+    for elemento in student:
+        communes_list.append(elemento.student_commune)
+    return communes_list
+
+#query para obtener años de ingreso
+@app.get('/entryYear_list/')
+async def entryYear_list():
+    entryYear_list = []
+    student = db.session.query(Student).all()
+    for elemento in student:
+        entryYear_list.append(elemento.student_entryYear)
+    return entryYear_list
+
+#query para obtener quintiles
+@app.get('/quintile_list/')
+async def quintile_list():
+    quintile_list = []
+    student = db.session.query(Student).all()
+    for elemento in student:
+        quintile_list.append(elemento.student_quintile)
+    return quintile_list
+
+#query para obtener semestre ingreso
+@app.get('/entrySemester_list/')
+async def entrySemester_list():
+    entrySemester_list = []
+    student = db.session.query(Student).all()
+    for elemento in student:
+        entrySemester_list.append(elemento.student_entrySemester)
+    return entrySemester_list
+
+#query para obtener promedio
+@app.get('/gpa_list/')
+async def gpa_list():
+    gpa_list = []
+    student = db.session.query(Student).all()
+    for elemento in student:
+        gpa_list.append(elemento.student_gpa)
+    return gpa_list
+
+@app.get('/filter/')
+async def filter():
+    filter = db.session.query(Filter).all()
+    print(db.session.query(Filter))
+    return filter
+
+@app.get('/filter_list/')
+async def filter_list():
+    filter_list = []
+    filter = db.session.query(Filter).all()
+    print(db.session.query(Filter))
+    for elemento in filter:
+        if(elemento.option != 0):
+            filter_list.append(elemento.table_id)
+    return filter_list

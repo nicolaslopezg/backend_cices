@@ -154,3 +154,10 @@ class Action(Base):
     atribute_mod=Column(String)
     action_mod=Column(String)
     project_id=Column(Integer)
+
+
+class Filter(Base):
+    __tablename__ = 'filter'
+
+    table_id = Column(String, primary_key = True)
+    option = Column(Integer)
