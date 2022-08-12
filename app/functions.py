@@ -1,5 +1,9 @@
 from cryptography.fernet import Fernet
 
+###############################################################
+# Definición de funciones para manipular los datos en backend #
+###############################################################
+
 #Funcion para encriptar
 def encrypt(text,s):
     result = ""
@@ -16,7 +20,7 @@ def encrypt(text,s):
       return result
 
 
- 
+#Funcion de codificación de datos (otro tipo de cifrado)
 def codificar(mensaje, rotaciones):
     #Nota: también se puede importar a string y usar ascii_letters y ascii_uppercase
     alfabeto = "abcdefghijklmnopqrstuvwxyz"
@@ -42,7 +46,7 @@ def codificar(mensaje, rotaciones):
         codificado += alfabeto_a_usar[posicion]
     return codificado
 
-
+#Funcion para decodificar la información previamente codificada
 def decodificar(mensaje, rotaciones):
     #Nota: también se puede importar a string y usar ascii_letters y ascii_uppercase
     alfabeto = "abcdefghijklmnopqrstuvwxyz"

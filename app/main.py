@@ -21,7 +21,11 @@ from model import *
 model.Base.metadata.create_all(bind=engine)
 model.Base.metadata.schema = 'info_db'
 
+#Se inicializa la aplicación
+
 app = FastAPI()
+
+#Se indican los endpoints a los que debe responder desde el frontend
 
 origins = [
     "http://localhost",
@@ -35,6 +39,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+#Se realiza la conexión pertinente a la bsae de datos
 
 os.environ['DATABASE_URL'] = DATABASE_URL
 
@@ -66,12 +72,14 @@ async def student():
     print(db.session.query(Student))
     return student
 
+#Query normal
 @app.get('/section/')
 async def section():
     section = db.session.query(Section).all()
     print(db.session.query(Section))
     return section
 
+#Query ocultando datos
 @app.get('/section_hide/')
 async def section():
     section = db.session.query(Section).all()
@@ -97,13 +105,14 @@ async def instructor():
     print(db.session.query(Instructor))
     return instructor
 
-
+#Query normal
 @app.get('/enrollment/')
 async def enrollment():
     enrollment = db.session.query(Enrollment).all()
     print(db.session.query(Enrollment))
     return enrollment
 
+#Query ocultando datos
 @app.get('/enrollment_hide/')
 async def enrollment():
     enrollment = db.session.query(Enrollment).all()
@@ -113,6 +122,7 @@ async def enrollment():
     print(db.session.query(Enrollment))
     return enrollment
 
+#Query normal
 @app.get('/ed_center/')
 async def ed_center():
     ed_center = db.session.query(Ed_center).all()
@@ -129,6 +139,7 @@ async def ed_center():
     print(db.session.query(Ed_center))
     return ed_center
 
+#Query normal
 @app.get('/department/')
 async def department():
     department = db.session.query(Department).all()
@@ -145,12 +156,14 @@ async def department():
     print(db.session.query(Department))
     return department
 
+#Query normal
 @app.get('/course/')
 async def course():
     course = db.session.query(Course).all()
     print(db.session.query(Course))
     return course
 
+#Query ocultando datos
 @app.get('/course_hide/')
 async def course():
     course = db.session.query(Course).all()
@@ -160,8 +173,11 @@ async def course():
     print(db.session.query(Course))
     return course
 
-#########################
-#Info todas las tablas
+#############################################################
+# Info todas las tablas por cada columnas segun se solicite #
+#############################################################
+
+#Tabla cursos
 @app.get('/course_columns/')
 async def info_db():
     columnas = []
@@ -174,6 +190,7 @@ async def info_db():
         i=i+1
     return columnas
 
+#Tabla estudiantes
 @app.get('/student_columns/')
 async def info_db():
     columnas = []
@@ -186,6 +203,7 @@ async def info_db():
         i=i+1
     return columnas
 
+#Tabla secciones
 @app.get('/section_columns/')
 async def info_db():
     columnas = []
@@ -198,6 +216,7 @@ async def info_db():
         i=i+1
     return columnas
 
+#Tabla profesores
 @app.get('/instructor_columns/')
 async def info_db():
     columnas = []
@@ -210,6 +229,7 @@ async def info_db():
         i=i+1
     return columnas
 
+#Tabla roles
 @app.get('/enrollment_columns/')
 async def info_db():
     columnas = []
@@ -222,6 +242,7 @@ async def info_db():
         i=i+1
     return columnas
 
+#Tabla centros educativos
 @app.get('/ed_center_columns/')
 async def info_db():
     columnas = []
@@ -234,6 +255,7 @@ async def info_db():
         i=i+1
     return columnas
 
+#Tabla departamentos
 @app.get('/department_columns/')
 async def info_db():
     columnas = []
@@ -246,12 +268,12 @@ async def info_db():
         i=i+1
     return columnas
 
-##########################################
+#############################################################
+# Info de los nombres de las columnas de la base de datos   #
+#############################################################
 @app.get('/info_db/')
 async def info_db():
-    #inspector = inspect(engine)
     nombres = ['Cursos','Departamento','Centro educacional','Rol','Profesor','Seccion','Estudiante']
-    #schemas = inspector.get_table_names(schema="public")
     return nombres
 
 @app.get('/info_db_columnas/')
@@ -266,6 +288,10 @@ async def info_db():
     columnas = [cursos,departamento,centro_ed,rol,profesor,seccion,estudiante]
     return columnas
 
+
+#############################################################
+# Endpoint que busca un elemento en especifico de una tabla #
+#############################################################
 @app.get('/search/{nombre_columna}')
 async def read_item(nombre_columna: str):
     columna=[]
@@ -395,11 +421,11 @@ async def read_item(nombre_columna: str):
                 columna.append(item.ins_id)
     return columna
 
-########################################
-
-# POST REQUEST
-
-########################################
+###############################################################
+# Endpoint para agregar datos a la base de datos              #
+# en específico se agrega las acciones realizada a los datos  #
+# tales como tipo de cifrado                                  #
+###############################################################
 
 #Post proyectos
 @app.post('/project/{name}/{id}')
@@ -420,6 +446,9 @@ def create_project(id:int,tabla:str,atribute:str,action:str,id_proyecto:int):
     db.session.commit()
     return new_action
 
+#############################################################
+# Info de otros datos requeridos para el estudiante         #
+#############################################################
 
 #query para obtener comunas
 @app.get('/communes_list/')
@@ -466,6 +495,12 @@ async def gpa_list():
     for elemento in student:
         gpa_list.append(elemento.student_gpa)
     return gpa_list
+
+
+
+#############################################################
+# Info de los datos condicionando un filtro de por medio    #
+#############################################################
 
 @app.get('/filter/')
 async def filter():
